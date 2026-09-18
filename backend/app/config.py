@@ -9,7 +9,8 @@ class Settings(BaseSettings):
     """Runtime settings for the Behavioral Monitor backend.
 
     Values are loaded from environment variables (and optional `.env`):
-    `APP_NAME`, `DEBUG`, `HOST`, `PORT`, `DATABASE_URL`.
+    `APP_NAME`, `DEBUG`, `HOST`, `PORT`, `DATABASE_URL`,
+    `ARTIFACTS_DIR`, `BOOTSTRAP_ADMIN_TOKEN`.
     """
 
     model_config = SettingsConfigDict(
@@ -22,10 +23,12 @@ class Settings(BaseSettings):
     app_name: str = "Behavioral Monitor API"
     debug: bool = False
     host: str = "0.0.0.0"
-    port: int = 8000
+    port: int = 8765
     database_url: str = (
-        "postgresql+asyncpg://user:password@localhost:5432/behavioral_monitor"
+        "postgresql+asyncpg://behavioral:behavioral@localhost:5432/behavioral_monitor"
     )
+    artifacts_dir: str = "artifacts"
+    bootstrap_admin_token: str = ""
 
 
 @lru_cache
