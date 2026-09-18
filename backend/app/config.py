@@ -5,6 +5,15 @@ from functools import lru_cache
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
+def to_sync_database_url(url: str) -> str:
+    """Convert an async SQLAlchemy URL to a sync psycopg URL for Alembic."""
+    if url.startswith("postgresql+asyncpg://"):
+        return "postgresql+psycopg://" + url.removeprefix("postgresql+asyncpg://")
+    if url.startswith("postgresql://"):
+        return "postgresql+psycopg://" + url.removeprefix("postgresql://")
+    return url
+
+
 class Settings(BaseSettings):
     """Runtime settings for the Behavioral Monitor backend.
 
@@ -29,6 +38,11 @@ class Settings(BaseSettings):
     )
     artifacts_dir: str = "artifacts"
     bootstrap_admin_token: str = ""
+
+    @property
+    def database_url_sync(self) -> str:
+        """Sync PostgreSQL URL used by Alembic migrations."""
+        return to_sync_database_url(self.database_url)
 
 
 @lru_cache
