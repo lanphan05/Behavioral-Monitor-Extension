@@ -7,10 +7,13 @@ from app.schemas.auth import (
     TokenMetadataResponse,
 )
 from app.schemas.health import HealthResponse
+from app.schemas.sessions import SessionCreateRequest, SessionResponse
 
 __all__ = [
     "CurrentUserResponse",
     "HealthResponse",
+    "SessionCreateRequest",
+    "SessionResponse",
     "TokenCreateRequest",
     "TokenCreatedResponse",
     "TokenMetadataResponse",
